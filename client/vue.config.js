@@ -1,9 +1,14 @@
 const path = require('path');
 module.exports = {
+  productionSourceMap: false,
   outputDir: path.resolve(__dirname, '../server/public'),
   devServer: { proxy: 'http://127.0.0.1:3000' },
   transpileDependencies: ['vuetify'],
   pwa: {
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: 'public/service-worker.js',
+    },
     manifestOptions: {
       name: 'Karrieretag PWA',
       short_name: 'Karrieretag PWA',
