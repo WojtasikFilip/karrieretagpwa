@@ -3,6 +3,7 @@
     <v-app-bar
       dark
       app
+      height="66"
       color="red darken-4"
       v-if="
         (!items.length || items.length == 0) && this.$route.name != 'Firma' && this.$route.name != 'Favoriten'
@@ -11,8 +12,6 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="text-h5"> Karrieretag </v-toolbar-title>
-
-      <v-spacer></v-spacer>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app hide-overlay disable-resize-watcher>
       <v-list nav dense>
@@ -83,7 +82,7 @@ export default {
     },
     async getFirmen() {
       const { data } = await axios({
-        url: this.serverAddress + '/firmen',
+        url: '/firmen',
         method: 'GET',
       });
       this.firmen = data;
@@ -91,7 +90,7 @@ export default {
 
     async getVorträge() {
       const { data } = await axios({
-        url: this.serverAddress + '/vortraege',
+        url: '/vortraege',
         method: 'GET',
       });
       this.vortraege = data;

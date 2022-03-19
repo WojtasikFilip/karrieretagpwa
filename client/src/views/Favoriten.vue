@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar dark color="red darken-4">
+    <v-app-bar dark color="red darken-4" height="66">
       <v-btn to="/" icon>
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
