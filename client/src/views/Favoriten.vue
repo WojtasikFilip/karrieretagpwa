@@ -12,10 +12,15 @@
         <v-col cols="12">
           <v-card color="blue-grey lighten-5 " v-for="a of allFavorites" :key="a.firmen_id" class="mt-5">
             <v-card-title class="text-h5 black--text font-weight-black pb-0">
-              {{ a.firmen_name }}
-
-              <v-chip class="ma-2 font-weight-medium" color="red darken-4" text-color="white">
-                {{ a.fachrichtung }}
+              <span class="mr-2">{{ a.firmen_name }}</span>
+              <v-chip
+                class="ma-1 font-weight-medium"
+                color="red darken-4"
+                text-color="white"
+                v-for="c of a.fachrichtung.split(',')"
+                :key="c"
+              >
+                {{ c }}
               </v-chip>
             </v-card-title>
             <v-card-text style="font-size: large">
@@ -23,7 +28,7 @@
             </v-card-text>
             <v-card-actions class="mt-0 pl-0 pt-0">
               <v-card-text class="text-h6 black--text"
-                ><v-icon large class="mr-2 mb-1">mdi-home-map-marker</v-icon>{{ a.platz }}</v-card-text
+                ><v-icon large class="mr-2 mb-1">mdi-store-marker</v-icon>{{ a.platz }}</v-card-text
               >
 
               <v-btn icon :to="`/firma/${a.firmen_id}`" class="mr-2">

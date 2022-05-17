@@ -90,7 +90,7 @@ export default {
 
     async getVorträge() {
       const { data } = await axios({
-        url: '/vortraege',
+        url: '/vortrag',
         method: 'GET',
       });
       this.vortraege = data;

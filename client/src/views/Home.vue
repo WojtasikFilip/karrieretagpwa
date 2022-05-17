@@ -45,8 +45,10 @@
         <template v-for="f of searchCompany" class="pa-0">
           <v-list-item :key="f.firmen_id" @click="selectedFirma.push(f)">
             <v-list-item-content>
-              <v-list-item-title v-text="f.firmen_name" class="text-h5 font-weight-bold"></v-list-item-title>
-              <v-list-item-subtitle class="text-h6">{{ f.fachrichtung }}</v-list-item-subtitle>
+              <v-list-item-title v-text="f.firmen_name" class="text-h6 font-weight-bold"></v-list-item-title>
+              <v-list-item-subtitle class="text-h6">{{
+                f.fachrichtung.replaceAll(',', ' | ')
+              }}</v-list-item-subtitle>
 
               <v-list-item-subtitle class="text-h6">{{ f.platz }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -81,7 +83,9 @@ export default {
   },
   computed: {
     searchCompany() {
-      return this.firmen.filter((el) => el.firmen_name.includes(this.searchFirma));
+      return this.firmen.filter((el) =>
+        el.firmen_name.toLowerCase().includes(this.searchFirma.toLowerCase()),
+      );
     },
   },
   async created() {

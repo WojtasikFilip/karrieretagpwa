@@ -31,7 +31,7 @@
           </v-list-item-action>
 
           <v-list-item-content>
-            <v-list-item-title class="text-h6">{{ f.fachrichtung }}</v-list-item-title>
+            <v-list-item-title class="text-h6">{{ f.fachrichtung.replaceAll(',', ' | ') }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -54,7 +54,12 @@
           </v-list-item-action>
 
           <v-list-item-content>
-            <v-list-item-title class="text-h6">{{ f.url }}https://www.htlwienwest.at/</v-list-item-title>
+            <a
+              class="text-h6"
+              target="_blank"
+              :href="f.url.includes('https://') || f.url.includes('http://') ? f.url : `http://${f.url}`"
+              >{{ f.url }}</a
+            >
           </v-list-item-content>
         </v-list-item>
 
@@ -87,8 +92,9 @@
 
           <v-list-item-content>
             <v-list-item-title class="text-h6"
-              >Von: {{ thisVortrag.map((el) => el.anfangvortrag.substr(0, 5)).toString() }} bis:
-              {{ thisVortrag.map((el) => el.endevortrag.substr(0, 5)).toString() }} Uhr
+              >{{ thisVortrag.map((el) => el.anfangvortrag.substr(0, 5)).toString() }} -
+              {{ thisVortrag.map((el) => el.endevortrag.substr(0, 5)).toString() }} Uhr <br> Im Bereich
+              {{ thisVortrag.map((el) => el.fachrichtung).toString() }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -114,7 +120,9 @@
           class="pa-3 text-h6"
         ></v-textarea>
       </v-container>
-      <v-btn text v-if="showButton" @click="updateFirma()">Speichern</v-btn>
+      <v-btn :disabled="firmenNotiz == 0" outlined @click="addFavorit()" class="mr-5" style="float: right"
+        >Speichern</v-btn
+      >
     </v-card>
   </div>
 </template>
@@ -150,7 +158,6 @@ export default {
       this.setData();
       navigator.vibrate(400);
     },
-    async addNotiz() {},
     async removeFavorit() {
       await this.db.delete('favorite', this.firma[0].firmen_id);
       this.setData();
@@ -176,12 +183,13 @@ export default {
       return this.firmen.filter((el) => el.firmen_id == this.id);
     },
     thisVortrag() {
-      return this.vortraege.filter((el) => el.firma == this.firma.map((el) => el.firmen_name));
+      return this.vortraege.filter((el) => el.firmen_id == this.firma.map((el) => el.firmen_id));
     },
   },
   async created() {
     this.db = await openDB('favoriteFirmaDB');
     this.setData();
+    console.log(this.vortraege.filter((el) => el.firmen_id == this.firma.map((el) => el.firmen_id)));
   },
 };
 </script>

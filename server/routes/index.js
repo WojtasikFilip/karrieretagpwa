@@ -5,6 +5,6 @@ const { getFirmen, getVorträge } = require('../controllers/karrieretag');
 const router = express.Router();
 
 router.get('/firmen', getFirmen);
-router.get('/vortraege', getVorträge);
+router.get('/vortrag', getVorträge);
 
 module.exports = router;
