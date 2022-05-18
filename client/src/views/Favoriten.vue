@@ -44,18 +44,28 @@
 
 <script>
 import { openDB } from 'idb';
-
+import axios from 'axios';
 export default {
   data() {
     return {
       db: null,
       allFavorites: [],
+      gefilterteFavorites: [],
+      firmen: [],
     };
   },
+
   async created() {
     this.db = await openDB('favoriteFirmaDB');
+    const { data } = await axios({
+      url: '/firmen',
+      method: 'GET',
+    });
+    this.firmen = data;
     this.allFavorites = await this.db.getAll('favorite');
-    console.log(this.allFavorites);
+    this.allFavorites = this.allFavorites.filter((el) =>
+      this.firmen.some((element) => el.firmen_id === element.firmen_id),
+    );
   },
 };
 </script>

@@ -93,7 +93,8 @@
           <v-list-item-content>
             <v-list-item-title class="text-h6"
               >{{ thisVortrag.map((el) => el.anfangvortrag.substr(0, 5)).toString() }} -
-              {{ thisVortrag.map((el) => el.endevortrag.substr(0, 5)).toString() }} Uhr <br> Im Bereich
+              {{ thisVortrag.map((el) => el.endevortrag.substr(0, 5)).toString() }} Uhr <br />
+              Im Bereich
               {{ thisVortrag.map((el) => el.fachrichtung).toString() }}
             </v-list-item-title>
           </v-list-item-content>
@@ -172,7 +173,6 @@ export default {
     },
     async setData() {
       const firma = await this.db.get('favorite', Number(this.id));
-
       firma
         ? ((this.clicked = true), (this.firmenNotiz = firma.notiz), (this.showButton = true))
         : ((this.clicked = false), (this.showButton = false));
@@ -189,7 +189,6 @@ export default {
   async created() {
     this.db = await openDB('favoriteFirmaDB');
     this.setData();
-    console.log(this.vortraege.filter((el) => el.firmen_id == this.firma.map((el) => el.firmen_id)));
   },
 };
 </script>

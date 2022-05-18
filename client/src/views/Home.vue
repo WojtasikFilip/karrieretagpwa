@@ -64,32 +64,34 @@
 
 <script>
 import { openDB } from 'idb';
-
+import axios from 'axios';
 export default {
-  props: {
-    firmen: {
-      type: Array,
-    },
-  },
   data() {
     return {
       clicked: false,
       db: null,
       snackbar: false,
       selected: [],
+      gefilterteFirmen: [],
       selectedFirma: [],
       searchFirma: '',
     };
   },
   computed: {
     searchCompany() {
-      return this.firmen.filter((el) =>
+      return this.gefilterteFirmen.filter((el) =>
         el.firmen_name.toLowerCase().includes(this.searchFirma.toLowerCase()),
       );
     },
   },
   async created() {
     this.db = await openDB('favoriteFirmaDB');
+    const { data } = await axios({
+      url: '/firmen',
+      method: 'GET',
+    });
+    this.firmen = data;
+    this.gefilterteFirmen = this.firmen.filter((el) => el.fachrichtung != null);
   },
   methods: {
     async addFavoriten() {
