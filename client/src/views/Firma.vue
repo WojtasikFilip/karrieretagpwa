@@ -119,12 +119,21 @@
           label="Notizen"
           maxlength="150"
           class="pa-3 text-h6"
+          @change="changed = true"
         ></v-textarea>
       </v-container>
       <v-btn :disabled="firmenNotiz == 0" outlined @click="addFavorit()" class="mr-5" style="float: right"
         >Speichern</v-btn
       >
     </v-card>
+    <v-snackbar v-model="snackbar" :timeout="3000" rounded="pill" elevation="24">
+      <span style="font-size: 20px">Als Favorit markiert.</span>
+      <template v-slot:action="{ attrs }">
+        <v-btn color="pink" text v-bind="attrs" @click="snackbar = false" style="font-size: 16px">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -138,7 +147,10 @@ export default {
       firmenNotiz: '',
       db: null,
       showButton: false,
+      snackbar: false,
+      count: 0,
       indexFirma: {},
+      changed: false,
     };
   },
   props: {
@@ -158,6 +170,10 @@ export default {
       await this.db.put('favorite', this.firma[0]);
       this.setData();
       navigator.vibrate(400);
+      if (this.changed) {
+        this.snackbar = true;
+      }
+      this.changed = false;
     },
     async removeFavorit() {
       await this.db.delete('favorite', this.firma[0].firmen_id);

@@ -57,6 +57,7 @@ export default {
 
   async created() {
     this.db = await openDB('favoriteFirmaDB');
+    // Wenn ich hier nicht erneut einen axios call mache, werden die Daten manchmal nicht geladen
     const { data } = await axios({
       url: '/firmen',
       method: 'GET',
